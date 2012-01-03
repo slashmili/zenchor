@@ -1,58 +1,57 @@
+<script src="js/draw_icon.js"> </script>
 
 <canvas id="icon" width="19" height="19">
 </canvas>
 
 <script>
+    function draw(s5, s4, s3){
+        var scale = 1;
+        var img = new Image();
+        img.onload = function(){
+            var canvas = document.getElementById('icon');
+            var ctx = canvas.getContext('2d');
 
-    var milad = 1;
-    var img = new Image();  
-    img.onload = function(){
-        var canvas = document.getElementById('icon'); 
-        var ctx = canvas.getContext('2d'); 
+            ctx.drawImage(img, 0,0,19 * scale ,19 * scale);
+            if( s5 != 0)
+                drawTrapezoidal5(ctx, 'rgba(214, 0, 0, 0.8)', s5, canvas, 0 , 0);
+            if( s4 != 0)
+                drawTrapezoidal4(ctx, 'rgba(255, 144, 5, 0.8)', s4, canvas, 13.8* scale , 0);
+            if( s3 != 0)
+                drawTrapezoidal3(ctx, 'rgba(255, 196, 5, 0.8)', s3, canvas, 7*scale , 11.8 * scale);
 
-        ctx.drawImage(img, 0,0,19 * milad ,19 * milad);
-        drawTrapezoidal(ctx, '#d60000', "1", canvas, 0 , 0);
-    //    drawTrapezoidal(ctx, 'rgb(255, 155, 0, 0.5)', "1", canvas, 80 , 80);
+            chrome.browserAction.setIcon({imageData:ctx.getImageData(0, 0, 19, 19)});
+        }
+        img.src = '/icons/ext_19.png';
     }
 
-    function drawTrapezoidal(ctx, color, num, canvas, x, y){
-        ctx.fillStyle = color;
-        ctx.beginPath();
-        max_width = (x + 0.5 * milad  ) /2;
-        max_height = (y + 15 * milad   ) /2;
 
-        middleX = (9.0 * milad + x + 0.0 * milad )/ 2 + 3 * milad;
-        middleY = (6.0 * milad  + y + 0.0 * milad)/2 - 3.5 * milad;
-        ctx.moveTo(x + 0 * milad , y + 0 * milad );
-        ctx.lineTo(x + 6 * milad , y + 0 * milad );
-        ctx.lineTo(x + 9 * milad , y + 3 * milad );
-        ctx.lineTo(x + 9 * milad , y + 8 * milad );
+</script>
 
-        ctx.lineTo(x + 6 * milad , y + 11 * milad );
-        ctx.lineTo(x + 0 * milad , y + 11 * milad );
+<script src="js/jquery-1.7.1.min.js"> </script>
 
-        ctx.lineTo(x + - 3 * milad , y + 8 * milad );
+<script>
+    var t=setTimeout("again()",10000);
+    function again () {
+    var event_json='{"action":"EventsRouter","method":"query","data":[{"start":0,"limit":100,"dir":"DESC","sort":"severity","params":"{\\"severity\\":[5,4,3,2],\\"eventState\\":[0,1]}"}],"type":"rpc","tid":30}';
+    var url = "http://localhost:8080/zport/dmd/Events/evconsole_router";
 
-        ctx.lineTo(x + - 3 * milad , y + 3 * milad );
-
-        //ctx.lineTo(6.0 * milad , 7.0 * milad );
-        //ctx.lineTo(3.0 * milad , 7.0 * milad );
-        //ctx.lineTo(1.5 * milad , 5.0 * milad );
-        //ctx.lineTo(1.5 * milad , 3.0 * milad );
-        ctx.fill();
-        ctx.font = "bold " + (6 * milad) + "px sans-serif";
-        ctx.fillStyle = 'white';
-        if (num.length == 1) 
-            num = "0" + num;
-        ctx.fillText(num, max_width, max_height);
-        ctx.fillStyle = 'navy';
-
-        //ctx.fillRect((3 * milad   ) /2,   ( y + 16* milad   ) /2 ,10, 10); 
-
-        chrome.browserAction.setIcon({imageData:ctx.getImageData(0, 0, 19, 19)});
-    }
-    img.src = '/icons/ext_19.png';
+    $.ajax({
+        type: "POST", 
+        url:url, 
+        dataType: 'json', 
+        data: event_json, 
+        contentType: "application/json",
+        success: function() {
+            console.log('herrr');
+            draw("5", "0", "2");    
+        },
+        error: function(data) {
+            console.log(data);
+        },
     
+    });
 
+    var t=setTimeout("again()",10000);
+    }
 
 </script>

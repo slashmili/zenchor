@@ -1,11 +1,5 @@
 <script src="js/jquery-1.7.1.min.js"> </script>
 
 <script>
-    $.post("https://monitoring.betonmarkets.com/zport/dmd/evconsole_router",
-    {action:"EventsRouter",method:"query",data:[{"criteria":[''],start:"0",limit:"100",dir:"DESC",sort:"lastTime",params:{severity:[5,4,3],eventState:[0,1]}}],type:"rpc",tid:"1"},
-    function(data){
-        console.log(data)
-    },
-    'json');
-
+    //TODO: get events from local db and show it here
 </script>
