@@ -1,0 +1,22 @@
+{
+    "background_page": "resources/background.html",
+    "name": "Zenoss Monitoring",
+    "browser_action": {
+        "popup": "resources/popup.html",
+        "default_icon": "icons/ext_19.png"
+        },
+    "icons": { 
+        "128": "icons/app_128.png"
+    },
+    "options_page": "resources/options.html",
+    "milad_app" : {
+        "launch": {
+            "local_path": "resources/redirect.html"
+        }
+    },
+    "permissions": [
+        "https://*/*" , "http://*/*" 
+    ],
+    "version": "0.9"
+}
+

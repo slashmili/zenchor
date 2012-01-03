@@ -1,0 +1,58 @@
+
+<canvas id="icon" width="19" height="19">
+</canvas>
+
+<script>
+
+    var milad = 1;
+    var img = new Image();  
+    img.onload = function(){
+        var canvas = document.getElementById('icon'); 
+        var ctx = canvas.getContext('2d'); 
+
+        ctx.drawImage(img, 0,0,19 * milad ,19 * milad);
+        drawTrapezoidal(ctx, '#d60000', "1", canvas, 0 , 0);
+    //    drawTrapezoidal(ctx, 'rgb(255, 155, 0, 0.5)', "1", canvas, 80 , 80);
+    }
+
+    function drawTrapezoidal(ctx, color, num, canvas, x, y){
+        ctx.fillStyle = color;
+        ctx.beginPath();
+        max_width = (x + 0.5 * milad  ) /2;
+        max_height = (y + 15 * milad   ) /2;
+
+        middleX = (9.0 * milad + x + 0.0 * milad )/ 2 + 3 * milad;
+        middleY = (6.0 * milad  + y + 0.0 * milad)/2 - 3.5 * milad;
+        ctx.moveTo(x + 0 * milad , y + 0 * milad );
+        ctx.lineTo(x + 6 * milad , y + 0 * milad );
+        ctx.lineTo(x + 9 * milad , y + 3 * milad );
+        ctx.lineTo(x + 9 * milad , y + 8 * milad );
+
+        ctx.lineTo(x + 6 * milad , y + 11 * milad );
+        ctx.lineTo(x + 0 * milad , y + 11 * milad );
+
+        ctx.lineTo(x + - 3 * milad , y + 8 * milad );
+
+        ctx.lineTo(x + - 3 * milad , y + 3 * milad );
+
+        //ctx.lineTo(6.0 * milad , 7.0 * milad );
+        //ctx.lineTo(3.0 * milad , 7.0 * milad );
+        //ctx.lineTo(1.5 * milad , 5.0 * milad );
+        //ctx.lineTo(1.5 * milad , 3.0 * milad );
+        ctx.fill();
+        ctx.font = "bold " + (6 * milad) + "px sans-serif";
+        ctx.fillStyle = 'white';
+        if (num.length == 1) 
+            num = "0" + num;
+        ctx.fillText(num, max_width, max_height);
+        ctx.fillStyle = 'navy';
+
+        //ctx.fillRect((3 * milad   ) /2,   ( y + 16* milad   ) /2 ,10, 10); 
+
+        chrome.browserAction.setIcon({imageData:ctx.getImageData(0, 0, 19, 19)});
+    }
+    img.src = '/icons/ext_19.png';
+    
+
+
+</script>
