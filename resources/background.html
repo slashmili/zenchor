@@ -1,4 +1,5 @@
-<script src="js/draw_icon.js"> </script>
+<script src="js/functions.js"> </script>
+<script src="js/Zenoss.API.js"> </script>
 
 <canvas id="icon" width="19" height="19">
 </canvas>
@@ -30,27 +31,29 @@
 <script src="js/jquery-1.7.1.min.js"> </script>
 
 <script>
-    var t=setTimeout("again()",10000);
+    var t=setTimeout("again()",3000);
+    var d = {}
     function again () {
-    var event_json='{"action":"EventsRouter","method":"query","data":[{"start":0,"limit":100,"dir":"DESC","sort":"severity","params":"{\\"severity\\":[5,4,3,2],\\"eventState\\":[0,1]}"}],"type":"rpc","tid":30}';
-    var url = "http://localhost:8080/zport/dmd/Events/evconsole_router";
-
-    $.ajax({
-        type: "POST", 
-        url:url, 
-        dataType: 'json', 
-        data: event_json, 
-        contentType: "application/json",
-        success: function() {
-            console.log('herrr');
-            draw("5", "0", "2");    
-        },
-        error: function(data) {
-            console.log(data);
-        },
-    
-    });
-
+        if(localStorage.zenossURL == '' || localStorage.zenossURL == undefined){
+            var img = new Image();
+            img.onload = function(){
+                var canvas = document.getElementById('icon');
+                var ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0,0,19 ,19);
+                drawNotLogin(ctx, canvas)
+                chrome.browserAction.setIcon({imageData:ctx.getImageData(0, 0, 19, 19)});
+            }
+            img.src = '/icons/ext_19.png';
+        }else {
+            getEventConsole(localStorage.zenossURL, function (data) { 
+                localStorage.acccessError = "0";
+                res = parseEventConsole(data);
+                console.log(res)
+                draw(res.severity5.toString(), res.severity4.toString(), res.severity3.toString())
+            },function (da) { 
+                localStorage.acccessError = "1";
+            } );
+        }
     var t=setTimeout("again()",10000);
     }
 

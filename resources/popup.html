@@ -1,5 +1,64 @@
-<script src="js/jquery-1.7.1.min.js"> </script>
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            #severity {
+                background: transparent url(/resources/img/severity-sprite.png) no-repeat;
+                width: 16px;
+                height: 14px;
+            }
+            .severity5 {
+                background-position: 0px 0px !important;
+            }
+            .severity4 {
+                background-position: 0px -20px !important;
+            }
+            .severity3 {
+                background-position: 0px -40px !important;
+            }
+            #eventConsoleTable {
+                font-size:8pt;
+                border-collapse: collapse;
+            }
+            #eventConsoleTable td{
+                padding-bottom: 1em;
+            }
+        </style>
+        <script src="js/jquery-1.7.1.min.js"> </script>
+         <script>
+            $(document).ready( function () { 
+                if(localStorage.zenossURL == '' || localStorage.zenossURL == undefined){
+                   // document.write('You need to configure this extenstion');
+                }else {
+                    console.log(typeof (localStorage.zenossEventLog));
+                    s = localStorage.zenossEventLog;
+                    console.log(s);
+                    events = eval (localStorage.zenossEventLog)
+                    eventsTable = $('#eventConsoleTable');
+                    if(events.length == 0){
+                        eventsTable.append('<tr><td>There is no event to show.</td></tr>');
+                    }else {
+                        $(events).each(function () {
+                            eventsTable.append('<tr><td><div class="severity' + this.severity  + '" id="severity" ></div> </td><td><a target="_blank" href="' + localStorage.zenossURL + this.device.uid  + '">' + this.device.text + '</a></td><td>' + this.summary.substr(0,26)  + '</td></tr>');
+                        });
+                    }
+                }
+            });
+        </script>
+           
 
-<script>
-    //TODO: get events from local db and show it here
-</script>
+    </head>
+    <body>
+        <div style="width:350px">
+            <script>
+                if(localStorage.acccessError == "1")
+                     document.write('Couldn\'t load event console, please check settings');
+                if(localStorage.zenossURL == '' || localStorage.zenossURL == undefined){
+                    document.write('You need to configure this extenstion');
+
+            </script>
+        <table id="eventConsoleTable">
+        </table>
+        </div>
+    </body>
+</html>

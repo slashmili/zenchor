@@ -1,6 +1,6 @@
 {
     "background_page": "resources/background.html",
-    "name": "Zenoss Monitoring",
+    "name": "Zenoss Event Console",
     "browser_action": {
         "popup": "resources/popup.html",
         "default_icon": "icons/ext_19.png"
