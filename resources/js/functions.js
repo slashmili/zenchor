@@ -97,7 +97,6 @@ function parseEventConsole(json) {
     severity5 = 0;
     severity4 = 0;
     severity3 = 0;
-    console.log("here :");
     
     localStorage.zenossEventLog  = JSON.stringify(events);
 
@@ -111,6 +110,13 @@ function parseEventConsole(json) {
 
     });
 
-   console.log(JSON.parse(localStorage.zenossEventLog))
    return {severity5: severity5, severity4:severity4, severity3:severity3}
+}
+
+
+function createIMG(imgFile, imgOnload ){
+   var img = new Image()
+   img.onload = imgOnload;
+   img.src = imgFile;
+   return img
 }

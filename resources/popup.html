@@ -2,6 +2,9 @@
 <html>
     <head>
         <style>
+            body{
+                font-size: 10pt;
+            }
             #severity {
                 background: transparent url(/resources/img/severity-sprite.png) no-repeat;
                 width: 16px;
@@ -51,10 +54,16 @@
     <body>
         <div style="width:350px">
             <script>
-                if(localStorage.acccessError == "1")
-                     document.write('Couldn\'t load event console, please check settings');
-                if(localStorage.zenossURL == '' || localStorage.zenossURL == undefined){
-                    document.write('You need to configure this extenstion');
+                if(localStorage.acccessError == "1") {
+                    document.write('Couldn\'t load event console:')
+                    document.write('<ul>');
+                    document.write('<li>Check extension\'s options</li>');
+                    document.write('<li>Make sure you are loged in to your Zenoss</li>');
+                    document.write('<li>Make sure you can open <a href="' + localStorage.zenossURL  + 'zport/dmd/Events/evconsole" target="_blank">Zenoss event console</a> through browser</li>');
+                    document.write('</ul>');
+                document.write('<a href="#" onclick="chrome.extension.getBackgroundPage().init();self.close();">reload</a> if you believe it\'s been fixed<br /><br />');
+                }else if(localStorage.zenossURL == '' || localStorage.zenossURL == undefined)
+                    document.write('You need to configure Zenoss event console extension.');
 
             </script>
         <table id="eventConsoleTable">

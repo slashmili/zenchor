@@ -1,104 +1,119 @@
+<!DOCTYPE html>
 <html>
-<head>
-<title>Your Zenoss Settings</title>
-<style>
-body {
-  font-family:helvetica, arial, sans-serif;
-  font-size:80%;
-  margin:10px;
-}
+    <head>
+        <title>Your Zenoss Settings</title>
+        <style>
+        body {
+          font-family:helvetica, arial, sans-serif;
+          font-size:80%;
+          margin:10px;
+        }
 
-#header {
-  padding-bottom:1.5em;
-  padding-top:1.5em;
-}
+        #header {
+          padding-bottom:1.5em;
+          padding-top:1.5em;
+        }
 
-#header h1 {
-  font-size: 156%;
-  display:inline;
-  padding-bottom:43px;
-  padding-left:75px;
-  padding-top:40px;
-  background:url(icon_128.png) no-repeat;
-  background-size:67px;
-  background-position:1px 18px;
-}
+        #header h1 {
+          font-size: 156%;
+          display:inline;
+          padding-bottom:43px;
+          padding-left:75px;
+          padding-top:40px;
+          background:url(icon_128.png) no-repeat;
+          background-size:67px;
+          background-position:1px 18px;
+        }
 
-.section-header {
-  background:#ebeff9;
-  border-top:1px solid #b5c7de;
-  font-size:99%;
-  padding:3px 0 2px 5px;
-  font-weight:bold;
-  margin-bottom:1em;
-  margin-top:4em;
-}
+        .section-header {
+          background:#ebeff9;
+          border-top:1px solid #b5c7de;
+          font-size:99%;
+          padding:3px 0 2px 5px;
+          font-weight:bold;
+          margin-bottom:1em;
+          margin-top:4em;
+        }
 
-.section-header.first {
-  margin-top:1em;
-}
+        .section-header.first {
+          margin-top:1em;
+        }
 
-#custom-domain {
-  width:300px;
-  margin-left:2px;
-}
+        #custom-domain {
+          width:300px;
+          margin-left:2px;
+        }
 
-#footer {
-  margin-top:4em;
-}
-</style>
-</head>
-<body>
+        #footer {
+          margin-top:4em;
+        }
+        </style>
+    </head>
+    <body>
 
-<div id="header"><h1>Zenoss Monitoring Option</h1></div>
+        <div id="header"><h1>Zenoss Event Console Options</h1></div>
 
-<div class="section-header first">Zenoss Domain</div>
-<p>Enter your Zenoss web address 
-<p>
-  <input type="text" id="custom-domain" oninput="markDirty()">
-    <em>(eg http://10.10.10.1:8080/)</em>
-   
-    <p>Update Zenoss console every </p> 
+        <div class="section-header first">Zenoss Domain</div>
+        <p>Enter your Zenoss web address 
+        <p>
+            <input type="text" id="custom-domain" oninput="markDirty()">
+            <em>(eg http://10.10.10.1:8080/)</em>
+           
 
-    <input type="text" id-"update-every" value="1" style="width:40px" /> minute(s)
-    <em>(eg 10)</em>
-<div id="footer">
-  <button id="save-button" style="font-weight:bold" onclick="save()"
-    >Save</button>
-  <button onclick="init()">Cancel</button>
-</div>
+        </div>
+        <div class="section-header first">Checking Interval</div>
+            <p>Update Zenoss console every </p>
+            <input type="text" id="update-every"  style="width:40px" oninput="markDirty()" /> second(s)
+            <em>(eg 10)</em>
+        <div id="footer">
+          <button id="save-button" style="font-weight:bold" onclick="save()"
+            >Save</button>
+          <button onclick="init()">Cancel</button>
+        </div>
 
-<script>
-var customDomainsTextbox;
-var saveButton;
-var updateEveryTextbox;
-init();
+        <script>
+        var customDomainsTextbox;
+        var saveButton;
+        var updateEveryTextbox;
+        init();
 
-function init() {
-  customDomainsTextbox = document.getElementById("custom-domain");
-  updateEveryTextbox = document.getElementById("update-every");
-  saveButton = document.getElementById("save-button");
+        function init() {
+            customDomainsTextbox = document.getElementById("custom-domain");
+            updateEveryTextbox = document.getElementById("update-every");
+            saveButton = document.getElementById("save-button");
 
-  customDomainsTextbox.value = localStorage.zenossURL || "";
-  updateEveryTextbox = localStorage.zenossUpdatePeriod || 1;
-  markClean();
-}
+            customDomainsTextbox.value = localStorage.zenossURL || "";
+            updateEveryTextbox.value = localStorage.zenossUpdatePeriod || 10;
+            markClean();
+        }
 
-function save() {
-  localStorage.zenossURL          = customDomainsTextbox.value;
-  localStorage.zenossUpdatePeriod =  updateEveryTextbox.value
-  markClean();
+        function save() {
+            if(customDomainsTextbox.value[customDomainsTextbox.value.length -1 ] != "/")
+                customDomainsTextbox.value += "/";
+           localStorage.zenossURL          = customDomainsTextbox.value;
+           localStorage.zenossUpdatePeriod =  updateEveryTextbox.value
+           markClean();
 
-  chrome.extension.getBackgroundPage().init();
-}
+           chrome.extension.getBackgroundPage().init();
+        }
 
-function markDirty() {
-  saveButton.disabled = false;
-}
+        function markDirty() {
+          saveButton.disabled = false;
+        }
 
-function markClean() {
-  saveButton.disabled = true;
-}
-</script>
-</body>
+        function markClean() {
+          saveButton.disabled = true;
+        }
+        </script>
+        <hr />
+        <b>disclaimer</b> :
+        <ul>
+            <li>This appliaction is not offical Zenoss extension for Chrome.</li>
+            <li>Zenoss is a registered trademark of the Zenoss, Inc.</li>
+        </ul>
+
+        <p>
+            This is <a href="http://www.gnu.org/licenses/gpl-3.0.html">Free Software</a> application. source is available via <a href="https://github.com/slashmili/zenchor">https://github.com/slashmili/zenchor</a>.
+        </p>
+    </body>
 </html>

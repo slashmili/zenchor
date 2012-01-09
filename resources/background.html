@@ -1,60 +1,70 @@
-<script src="js/functions.js"> </script>
-<script src="js/Zenoss.API.js"> </script>
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript" src="js/jquery-1.7.1.min.js"> </script>
+        <script type="text/javascript" src="js/functions.js"> </script>
+        <script type="text/javascript" src="js/Zenoss.API.js"> </script>
 
-<canvas id="icon" width="19" height="19">
-</canvas>
+        <script>
 
-<script>
-    function draw(s5, s4, s3){
-        var scale = 1;
-        var img = new Image();
-        img.onload = function(){
-            var canvas = document.getElementById('icon');
-            var ctx = canvas.getContext('2d');
+            function draw(s5, s4, s3){
+                var scale = 1;
+                var img = createIMG('/icons/ext_19.png', function(){
+                    var canvas = document.getElementById('icon');
+                    var ctx = canvas.getContext('2d');
 
-            ctx.drawImage(img, 0,0,19 * scale ,19 * scale);
-            if( s5 != 0)
-                drawTrapezoidal5(ctx, 'rgba(214, 0, 0, 0.8)', s5, canvas, 0 , 0);
-            if( s4 != 0)
-                drawTrapezoidal4(ctx, 'rgba(255, 144, 5, 0.8)', s4, canvas, 13.8* scale , 0);
-            if( s3 != 0)
-                drawTrapezoidal3(ctx, 'rgba(255, 196, 5, 0.8)', s3, canvas, 7*scale , 11.8 * scale);
+                    ctx.drawImage(this, 0,0,19 * scale ,19 * scale);
+                    if( s5 != 0)
+                        drawTrapezoidal5(ctx, 'rgba(214, 0, 0, 0.8)', s5, canvas, 0 , 0);
+                    if( s4 != 0)
+                        drawTrapezoidal4(ctx, 'rgba(255, 144, 5, 0.8)', s4, canvas, 13.8* scale , 0);
+                    if( s3 != 0)
+                        drawTrapezoidal3(ctx, 'rgba(255, 196, 5, 0.8)', s3, canvas, 7*scale , 11.8 * scale);
 
-            chrome.browserAction.setIcon({imageData:ctx.getImageData(0, 0, 19, 19)});
-        }
-        img.src = '/icons/ext_19.png';
-    }
-
-
-</script>
-
-<script src="js/jquery-1.7.1.min.js"> </script>
-
-<script>
-    var t=setTimeout("again()",3000);
-    var d = {}
-    function again () {
-        if(localStorage.zenossURL == '' || localStorage.zenossURL == undefined){
-            var img = new Image();
-            img.onload = function(){
-                var canvas = document.getElementById('icon');
-                var ctx = canvas.getContext('2d');
-                ctx.drawImage(img, 0,0,19 ,19);
-                drawNotLogin(ctx, canvas)
-                chrome.browserAction.setIcon({imageData:ctx.getImageData(0, 0, 19, 19)});
+                    chrome.browserAction.setIcon({imageData:ctx.getImageData(0, 0, 19, 19)});
+                });
             }
-            img.src = '/icons/ext_19.png';
-        }else {
-            getEventConsole(localStorage.zenossURL, function (data) { 
-                localStorage.acccessError = "0";
-                res = parseEventConsole(data);
-                console.log(res)
-                draw(res.severity5.toString(), res.severity4.toString(), res.severity3.toString())
-            },function (da) { 
-                localStorage.acccessError = "1";
-            } );
-        }
-    var t=setTimeout("again()",10000);
-    }
 
-</script>
+            function drawDisable() {
+                var img = createIMG('/icons/ext_19.png' ,function(){
+                    var canvas = document.getElementById('icon');
+                    var ctx = canvas.getContext('2d');
+                    ctx.drawImage(this, 0,0,19 ,19);
+                    drawNotLogin(ctx, canvas);
+                    chrome.browserAction.setIcon({imageData:ctx.getImageData(0, 0, 19, 19)});
+                });
+            }
+            
+            function run () {
+                var interval = localStorage.zenossUpdatePeriod || 10;
+                if(localStorage.zenossURL == '' || localStorage.zenossURL == undefined){
+                    localStorage.acccessError = "1";
+                    drawDisable()
+                }else {
+                    getEventConsole(localStorage.zenossURL, function (data) { 
+                        localStorage.acccessError = "0";
+                        res = parseEventConsole(data);
+                        draw(res.severity5.toString(), res.severity4.toString(), res.severity3.toString())
+                    },function (da) { 
+                        localStorage.acccessError = "1";
+                        drawDisable();
+                    });
+                }
+                intervalTimer = setTimeout("run()", interval * 1000);
+            }
+            
+            var intervalTimer;
+
+            function init() {
+                clearTimeout(intervalTimer);
+                run();
+            }
+
+        </script>
+
+    </head>
+    <body onload="run()" >
+        <canvas id="icon" width="19" height="19">
+        </canvas>
+    </body>
+</html>
