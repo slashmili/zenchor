@@ -7,4 +7,4 @@ How To install
 
 Screenshot
 ==============
-![Zenoss Event Console](\https://lh4.googleusercontent.com/KTboJn87LvFnVZCGqjs6nQKNzGTDtjCE0FlujMAtZoNBQ8KvVxNTEIjE29DJaaddeF5FWAEP=s640-h400-e365)
+![Zenoss Event Console](https://lh5.googleusercontent.com/PjqxFymVDv8sVWTRwCRCFeSyFwYflf7pvrux_V0VCkSyt7H96MjQW0JxgWISEGuqVVkD8DwG=s640-h400-e365)
