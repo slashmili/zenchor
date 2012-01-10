@@ -9,14 +9,9 @@
         "128": "icons/app_128.png"
     },
     "options_page": "resources/options.html",
-    "milad_app" : {
-        "launch": {
-            "local_path": "resources/redirect.html"
-        }
-    },
     "permissions": [
         "https://*/*" , "http://*/*" 
     ],
-    "version": "0.9"
+    "version": "1.0"
 }
 
