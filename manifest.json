@@ -10,8 +10,8 @@
     },
     "options_page": "resources/options.html",
     "permissions": [
-        "https://*/zport/dmd/Events/evconsole_router" , "http://*/zport/dmd/Events/evconsole_router"
+        "https://*/*" , "http://*/*"
     ],
-    "version": "1.1"
+    "version": "1.2"
 }
 
