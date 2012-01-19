@@ -42,7 +42,7 @@
                         eventsTable.append('<tr><td>There is no event to show.</td></tr>');
                     }else {
                         $(events).each(function () {
-                            eventsTable.append('<tr><td><div class="severity' + this.severity  + '" id="severity" ></div> </td><td><a target="_blank" href="' + localStorage.zenossURL + this.device.uid  + '">' + this.device.text + '</a></td><td>' + this.summary.substr(0,26)  + '</td></tr>');
+                            eventsTable.append('<tr><td><div class="severity' + this.severity  + '" id="severity" ></div> </td><td><a target="_blank" href="' + localStorage.zenossURL + this.device.uid  + '">' + this.device.text + '</a></td><td>' + this.summary.substr(0,50)  + '</td></tr>');
                         });
                     }
                 }
@@ -52,7 +52,7 @@
 
     </head>
     <body>
-        <div style="width:350px">
+        <div style="width:450px">
             <script>
                 if(localStorage.acccessError == "1") {
                     document.write('Couldn\'t load event console:')
@@ -69,5 +69,12 @@
         <table id="eventConsoleTable">
         </table>
         </div>
+        <footer style="font-size:7pt;">
+            <script >
+                document.write('<a href="' + localStorage.zenossURL  + 'zport/dmd/Events/evconsole" target="_blank">Event Console</a>');
+            </script> |
+            <a href="#"  onclick="chrome.extension.getBackgroundPage().init();self.close();">Reload</a> |
+            Last fetch : <script> document.write(localStorage.lastFetch.substr(0,25)) </script>
+            </footer>
     </body>
 </html>

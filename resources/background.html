@@ -36,6 +36,7 @@
             }
             
             function run () {
+                localStorage.lastFetch = new Date();
                 var interval = localStorage.zenossUpdatePeriod || 10;
                 if(localStorage.zenossURL == '' || localStorage.zenossURL == undefined){
                     localStorage.acccessError = "1";
