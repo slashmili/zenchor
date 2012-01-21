@@ -1,7 +1,7 @@
 How To install
 ==============
 
-1. Go to Chrome Store and install it [Zenoss Event Console](https://chrome.google.com/webstore/detail/jggpglgdkmbecpobcciefndcgoionihn)
+1. Go to Chrome Store and install it [Zenoss Event Console](https://chrome.google.com/webstore/detail/hibkfafceeekmknadpglakdnmaiigonp)
 
 2. Get the source and follow the [instruction](http://code.google.com/chrome/extensions/getstarted.html)
 
